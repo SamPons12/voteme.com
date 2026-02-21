@@ -1,9 +1,9 @@
 import { createContext, useContext, useEffect, useState } from "react"
 import { loginUser, registerUser } from "../api/auth.service";
 
-const AuthContext = createContext
+const AuthContext = createContext()
 
-export default function AuthProvider({ children }) {
+export function AuthProvider({ children }) {
 
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -52,7 +52,7 @@ export default function AuthProvider({ children }) {
   return (
     <div>
       <AuthContext.Provider value={{user, login, register, logout}}>
-        {!cargando && children}
+        {!loading && children}
       </AuthContext.Provider>
     </div>
   )
