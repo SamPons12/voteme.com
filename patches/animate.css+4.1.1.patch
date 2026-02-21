@@ -1,0 +1,22 @@
+diff --git a/node_modules/animate.css/animate.css b/node_modules/animate.css/animate.css
+index c3c1389..7260823 100644
+--- a/node_modules/animate.css/animate.css
++++ b/node_modules/animate.css/animate.css
+@@ -40,6 +40,17 @@
+   -webkit-animation-iteration-count: calc(var(--animate-repeat) * 3);
+   animation-iteration-count: calc(var(--animate-repeat) * 3);
+ }
++
++.animate__animated.animate__delay-20ms {
++  -webkit-animation-delay: 0.2s;
++  animation-delay: 0.2s;
++}
++
++.animate__animated.animate__delay-40ms {
++  -webkit-animation-delay: 0.4s;
++  animation-delay: 0.4s;
++}
++
+ .animate__animated.animate__delay-1s {
+   -webkit-animation-delay: 1s;
+   animation-delay: 1s;
