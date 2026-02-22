@@ -4,6 +4,8 @@ import { useState } from "react";
 import { validateConfirmPassword, validateEmail, validatePassword } from "../../helpers/authValidation";
 
 export default function Register() {
+  document.title = "Vote4Me | Register";
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");

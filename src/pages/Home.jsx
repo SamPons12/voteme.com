@@ -1,6 +1,8 @@
 import { Button } from "@radix-ui/themes";
 
 export default function Home() {
+  document.title = "Vote4Me | Inicio";
+
   return (
     <main className="bg-off-white min-h-dvh">
       <section className="pt-40 px-10 pb-20 flex min-h-screen flex-col items-center justify-center relative">
