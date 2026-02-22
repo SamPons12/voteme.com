@@ -1,32 +1,33 @@
 import axios from "axios"
 const instance = axios.create({
-  baseURL: import.meta.env.API_URL,
-  timeout: 2000,
+  baseURL: import.meta.env.VITE_API_URL,
   headers: {
-    'Content-Type': 'multipart/form-data'
+    'Content-Type': 'application/json'
   }
 })
 
 export async function loginUser(email, password) {
   try {
-    const data = await instance.post('/login', {
+    const res = await instance.post('/auth/login', {
       email,
       password
     });
-    return data;
-  } catch (error) {
-    console.log(error);
+    return res.data;
+  } catch (err) {
+    throw err.response.data
   }
+    
 }
 
 export async function registerUser(email, password) {
   try {
-    const res = await instance.post('/register', {
+     const res = await instance.post('/auth/register', {
       email,
       password
     });
-    return res;
-  } catch (error) {
-    console.log(error)
+    return res.data;
+  } catch (err) {
+    throw err.response.data
   }
+   
 }

@@ -1,33 +1,37 @@
 import { createContext, useContext, useEffect, useState } from "react"
 import { loginUser, registerUser } from "../api/auth.service";
+import { jwtDecode } from "jwt-decode";
 
 const AuthContext = createContext()
 
 export function AuthProvider({ children }) {
 
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
-
+  const [loading, setLoading] = useState(true);
+ 
   useEffect(() => {
     const storedToken = localStorage.getItem('token')
     if (storedToken) {
-      setUser(JSON.parse(storedToken));
+      const decode = jwtDecode(storedToken)
+      setUser(decode);
     }
+    setLoading(false);
   }, [])
 
   const login = async (email, password) => {
     try {
       setLoading(true)
       const data = await loginUser(email, password);
-
       if (data.token) {
         localStorage.setItem('token', data.token);
-        setUser(data.token);
+        const decode = jwtDecode(data.token)
+        setUser(decode);
       }
-      setLoading(false);
+      return data.token;
     } catch (err) {
-      setLoading(false);
-      console.log(err.getMessage)
+      throw err
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -35,10 +39,11 @@ export function AuthProvider({ children }) {
     try {
       setLoading(true);
       const res = await registerUser(email, password);
-      setLoading(false);
       return res
-    } catch (error) {
-      console.log(error)
+    } catch (err) {
+      throw err
+    } finally {
+      setLoading(false)
     }
   }
 
@@ -51,8 +56,8 @@ export function AuthProvider({ children }) {
 
   return (
     <div>
-      <AuthContext.Provider value={{user, login, register, logout}}>
-        {!loading && children}
+      <AuthContext.Provider value={{user, login, register, logout, loading}}>
+        {children}
       </AuthContext.Provider>
     </div>
   )
