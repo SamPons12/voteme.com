@@ -40,25 +40,25 @@ export default function Header() {
         </div>
       </div>
       <div className="flex justify-center items-center lg:gap-10">
-        <div className="flex gap-5 justify-center items-center">
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#f9fafb" stroke-linecap="round" stroke-linejoin="round" id="Moon--Streamline-Lucide" height="24" width="24">
-            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1 -9 -9Z" stroke-width="2"></path>
+        <div className="gap-5 justify-center items-center hidden lg:flex"> 
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#f9fafb" strokeLinecap="round" strokeLinejoin="round" id="Sun--Streamline-Lucide" height="24" width="24">
+            <path d="M8 12a4 4 0 1 0 8 0 4 4 0 1 0 -8 0" strokeWidth="2"></path>
+            <path d="M12 2v2" strokeWidth="2"></path>
+            <path d="M12 20v2" strokeWidth="2"></path>
+            <path d="m4.93 4.93 1.41 1.41" strokeWidth="2"></path>
+            <path d="m17.66 17.66 1.41 1.41" strokeWidth="2"></path>
+            <path d="M2 12h2" strokeWidth="2"></path>
+            <path d="M20 12h2" strokeWidth="2"></path>
+            <path d="m6.34 17.66 -1.41 1.41" strokeWidth="2"></path>
+            <path d="m19.07 4.93 -1.41 1.41" strokeWidth="2"></path>
           </svg>
-          <Switch defaultChecked size='3' color="gold"/>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#f9fafb" stroke-linecap="round" stroke-linejoin="round" id="Sun--Streamline-Lucide" height="24" width="24">
-            <path d="M8 12a4 4 0 1 0 8 0 4 4 0 1 0 -8 0" stroke-width="2"></path>
-            <path d="M12 2v2" stroke-width="2"></path>
-            <path d="M12 20v2" stroke-width="2"></path>
-            <path d="m4.93 4.93 1.41 1.41" stroke-width="2"></path>
-            <path d="m17.66 17.66 1.41 1.41" stroke-width="2"></path>
-            <path d="M2 12h2" stroke-width="2"></path>
-            <path d="M20 12h2" stroke-width="2"></path>
-            <path d="m6.34 17.66 -1.41 1.41" stroke-width="2"></path>
-            <path d="m19.07 4.93 -1.41 1.41" stroke-width="2"></path>
+          <Switch size='3' color="gold"/>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="#f9fafb" strokeLinecap="round" strokeLinejoin="round" id="Moon--Streamline-Lucide" height="24" width="24">
+            <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1 -9 -9Z" strokeWidth="2"></path>
           </svg>
         </div>
         
-        <NavLink to="/porfile">
+        <NavLink to="/user">
          <svg xmlns="http://www.w3.org/2000/svg" className="w-12 h-12" fill="none" viewBox="-0.5 -0.5 16 16" strokeLinecap="round" strokeLinejoin="round" stroke="#ffffff" id="User--Streamline-Mynaui" height="16" width="16">
           <path d="M5.625 4.6875a1.875 1.875 0 1 0 3.75 0 1.875 1.875 0 1 0 -3.75 0" strokeWidth="1"></path>
           <path d="M12.1875 12.8125c-0.296875 -5.833125 -9.078125 -5.833125 -9.375 0" strokeWidth="1"></path>
