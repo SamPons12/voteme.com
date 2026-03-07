@@ -8,6 +8,7 @@ import ProtectRoute from "./auth/ProtectRoute"
 import UserDashboard from "./pages/UserDashboard"
 import AdminDashboard from "./pages/admin/AdminDashboard"
 import Vote from "./pages/Vote"
+import ThankYouMessage from "./pages/ThankYouMessage"
 
 export default function App() {
   return (
@@ -36,6 +37,14 @@ export default function App() {
           <Route path="/votar" element={
             <ProtectRoute >
               <Vote />
+            </ProtectRoute>
+          } />
+        </Route>
+        
+        <Route element={<MainLayout />}>
+          <Route path="/votar/gracias-por-participar" element={
+            <ProtectRoute>
+              <ThankYouMessage />
             </ProtectRoute>
           } />
         </Route>
