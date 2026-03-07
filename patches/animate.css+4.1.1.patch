@@ -1,15 +1,25 @@
 diff --git a/node_modules/animate.css/animate.css b/node_modules/animate.css/animate.css
-index c3c1389..7260823 100644
+index c3c1389..fa815aa 100644
 --- a/node_modules/animate.css/animate.css
 +++ b/node_modules/animate.css/animate.css
-@@ -40,6 +40,17 @@
+@@ -40,6 +40,27 @@
    -webkit-animation-iteration-count: calc(var(--animate-repeat) * 3);
    animation-iteration-count: calc(var(--animate-repeat) * 3);
  }
 +
++.animate__animated.animate__delay-10ms {
++  -webkit-animation-delay: 0.1s;
++  animation-delay: 0.1s;
++}
++
 +.animate__animated.animate__delay-20ms {
 +  -webkit-animation-delay: 0.2s;
 +  animation-delay: 0.2s;
++}
++
++.animate__animated.animate__delay-30ms {
++  -webkit-animation-delay: 0.3s;
++  animation-delay: 0.3s;
 +}
 +
 +.animate__animated.animate__delay-40ms {
