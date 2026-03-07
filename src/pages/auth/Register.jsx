@@ -1,8 +1,8 @@
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../../auth/AuthContext";
 import { useState } from "react";
 import { validateConfirmPassword, validateEmail, validatePassword } from "../../helpers/authValidation";
-
+import { MoonLoader } from "react-spinners";
 export default function Register() {
   document.title = "Vote4Me | Register";
 
@@ -11,6 +11,8 @@ export default function Register() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
 
+  const navigate = useNavigate();
+  
   const { user, register, loading } = useAuth();
 
   if (user) {
@@ -39,6 +41,7 @@ export default function Register() {
     if (Object.keys(newErrors).length === 0) {
       try {
         const data = await register(email, password)
+        navigate('/login')
       } catch (err) {
         if (err.error === "EMAIL_EXISTS") {
           newErrors.email = err.message;
@@ -50,10 +53,10 @@ export default function Register() {
   }
 
   return (
-    <main className="w-full pt-40 pb-20 min-h-dvh flex justify-center items-center">
+    <main className="w-full pt-40 pb-20 min-h-dvh flex justify-center items-center bg-[url(pawel-czerwinski-xwp0_eLoZp0-unsplash.jpg)] bg-center bg-cover">
       {loading && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
-          <MoonLoader size={90} color="#C9A24D" />
+          <MoonLoader size={90} color="#000080" />
         </div>
       )}
       <section className="rounded-2xl bg-white p-8 shadow-2xl lg:w-1/2 lg:px-20 lg:py-12">
@@ -134,7 +137,7 @@ export default function Register() {
 
           <button
             type="submit"
-            className="w-full rounded-xl bg-accent-gold py-3 text-sm font-semibold text-white shadow-md transition hover:-translate-y-0.5 cursor-pointer hover:shadow-lg"
+            className="w-full rounded-xl bg-blue-900 py-3 text-sm font-semibold text-white shadow-md transition hover:-translate-y-0.5 cursor-pointer hover:shadow-lg"
           >
             Registrarse
           </button>

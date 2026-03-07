@@ -33,10 +33,10 @@ export default function Login() {
   }
 
   return (
-    <main className="w-full pt-12 min-h-dvh flex justify-center items-center">
-      {loading && (
+    <main className="w-full pt-12 min-h-dvh flex justify-center items-center bg-[url(pawel-czerwinski-xwp0_eLoZp0-unsplash.jpg)] bg-center bg-cover">
+     {loading && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
-          <MoonLoader size={90} color="#C9A24D" />
+          <MoonLoader size={90} color="#000080" />
         </div>
       )}
       <section className="items-center rounded-2xl bg-white p-8 shadow-2xl lg:w-1/2 lg:px-20 lg:py-12"> 
@@ -79,7 +79,7 @@ export default function Login() {
           
           <button
             type="submit"
-            className="w-full rounded-xl cursor-pointer bg-accent-gold py-3 text-sm font-semibold text-white shadow-md transition hover:-translate-y-0.5 hover:shadow-lg"
+            className="w-full rounded-xl cursor-pointer bg-blue-900 py-3 text-sm font-semibold text-white shadow-md transition hover:-translate-y-0.5 hover:shadow-lg"
           >
             Iniciar sesión
           </button>
