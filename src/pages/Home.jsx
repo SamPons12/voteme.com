@@ -4,7 +4,7 @@ export default function Home() {
   document.title = "Vote4Me | Inicio";
 
   return (
-    <main className="min-h-dvh bg-[url(pawel-czerwinski-xwp0_eLoZp0-unsplash.jpg)] bg-center bg-cover">
+    <main className="min-h-dvh bg-[url(./pawel-czerwinski-xwp0_eLoZp0-unsplash.jpg)] bg-center bg-cover">
       
       <section className="pt-40 px-10 pb-20 flex min-h-screen flex-col items-center justify-center relative">
         <svg xmlns="http://www.w3.org/2000/svg" className=" hidden w-40 h-50 absolute bottom-10 left-60 lg:block animate-pulse" viewBox="0 0 32 32" id="Romance-Love-Letter-Open--Streamline-Pixel" height="32" width="32">
