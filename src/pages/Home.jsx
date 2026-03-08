@@ -1,4 +1,3 @@
-import { Button } from "@radix-ui/themes";
 
 export default function Home() {
   document.title = "Vote4Me | Inicio";
