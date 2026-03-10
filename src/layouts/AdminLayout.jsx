@@ -1,6 +1,12 @@
+import { Outlet } from "react-router-dom"
+import Sidebar from "../components/Sidebar"
 
 export default function AdminLayout() {
+
   return (
-    <div>AdminLayout</div>
+    <div className="flex">
+      <Sidebar />
+      <Outlet />
+    </div>
   )
 }

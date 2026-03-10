@@ -1,6 +1,7 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "./AuthContext"
 import { MoonLoader } from "react-spinners";
+Sideba
 
 export default function ProtectRoute({ children, role}) {
 
@@ -12,6 +13,12 @@ export default function ProtectRoute({ children, role}) {
 
   if (!user) {
     return <Navigate to='/login' replace />
+  }
+
+  if (role) {
+    if (user.role !== role) {
+      return <Navigate to='/' replace />
+    }
   }
 
   return (

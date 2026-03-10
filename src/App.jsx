@@ -49,11 +49,14 @@ export default function App() {
           } />
         </Route>
         
-        <Route path="/admin" element={
-          <ProtectRoute role="admin">
-            <AdminDashboard />
-          </ProtectRoute>
-        } />
+        <Route element={<AdminLayout />} >
+          <Route path="/admin" element={
+            <ProtectRoute role="admin">
+              <AdminDashboard />
+            </ProtectRoute>
+          } />
+        </Route>
+        
 
       </Routes>
     </>
