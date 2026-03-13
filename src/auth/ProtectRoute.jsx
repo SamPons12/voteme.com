@@ -1,7 +1,7 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "./AuthContext"
 import { MoonLoader } from "react-spinners";
-Sideba
+
 
 export default function ProtectRoute({ children, role}) {
 

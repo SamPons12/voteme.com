@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { getAllCategories } from "../api/categories.service";
 import { getNomineesBycategory } from "../api/nominees.service";
 import { voteHelper } from "../helpers/voteHelper";
 import { MoonLoader } from "react-spinners";
@@ -7,6 +6,7 @@ import { saveVotes } from "../api/votes.service";
 import Nominee from "../components/Nominee";
 import { useNavigate } from "react-router-dom";
 import { hasUserVoted } from "../helpers/userHelper";
+import { getActiveEditionCategories } from "@/api/edtions.service";
 
 export default function Vote() {
   const [categories, setCategories] = useState([]);
@@ -24,7 +24,7 @@ export default function Vote() {
     async function getCategories() {
       try {
         setLoadingCategories(true);
-        const data = await getAllCategories();
+        const data = await getActiveEditionCategories();
         if (data.length > 0) {
           setCategories(data);
           setCategoryId(data[0].category_id);
@@ -82,12 +82,12 @@ export default function Vote() {
   async function sendVotes() {
     try {
       setLoadingSendVotes(true);
-      const response = await saveVotes(votes, localStorage.getItem("token"));
+      const response = await saveVotes(votes);
       if (response.data.ok) {
         navigate('/votar/gracias-por-participar', {replace: true})
       }
     } catch (err) {
-      console.log(err.response)
+      console.log(err)
     } finally {
       setLoadingSendVotes(false);
     }
@@ -107,6 +107,7 @@ export default function Vote() {
     const currentIndex = categories.findIndex(
       (c) => c.category_id === categoryId,
     );
+    
 
     if (currentIndex === -1) return;
 
@@ -114,7 +115,7 @@ export default function Vote() {
       sendVotes();
       return;
     }
-
+    
     setCategoryId(categories[currentIndex + 1].category_id);
   }
 

@@ -1,14 +1,8 @@
-import axios from "axios"
-const instance = axios.create({
-  baseURL: import.meta.env.VITE_API_URL,
-  headers: {
-    'Content-Type': 'application/json'
-  }
-})
+import { api } from "@/lib/axios-config";
 
 export async function loginUser(email, password) {
-  try {
-    const res = await instance.post('/auth/login', {
+  try { 
+    const res = await api.post('/auth/login', {
       email,
       password
     });
@@ -21,7 +15,7 @@ export async function loginUser(email, password) {
 
 export async function registerUser(email, password) {
   try {
-     const res = await instance.post('/auth/register', {
+     const res = await api.post('/auth/register', {
       email,
       password
     });

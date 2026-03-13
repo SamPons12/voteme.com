@@ -9,6 +9,8 @@ import UserDashboard from "./pages/UserDashboard"
 import AdminDashboard from "./pages/admin/AdminDashboard"
 import Vote from "./pages/Vote"
 import ThankYouMessage from "./pages/ThankYouMessage"
+import Editions from "./pages/admin/Editions"
+import Categories from "./pages/admin/Categories"
 
 export default function App() {
   return (
@@ -56,7 +58,21 @@ export default function App() {
             </ProtectRoute>
           } />
         </Route>
-        
+
+        <Route element={<AdminLayout />} >
+          <Route path="/admin/ediciones" element={
+            <ProtectRoute role="admin">
+              <Editions />
+            </ProtectRoute>
+          } />
+        </Route>
+        <Route element={<AdminLayout />} >
+          <Route path="/admin/categorias" element={
+            <ProtectRoute role="admin">
+              <Categories />
+            </ProtectRoute>
+          } />
+        </Route>
 
       </Routes>
     </>

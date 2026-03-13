@@ -1,12 +1,16 @@
+import { AppSidebar } from "@/components/AppSidebar"
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
 import { Outlet } from "react-router-dom"
-import Sidebar from "../components/Sidebar"
 
 export default function AdminLayout() {
 
   return (
-    <div className="flex">
-      <Sidebar />
-      <Outlet />
-    </div>
+    <SidebarProvider>
+      <AppSidebar />
+      <main>
+        <SidebarTrigger/>
+        <Outlet />
+      </main>
+    </SidebarProvider>
   )
 }
