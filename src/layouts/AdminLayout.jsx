@@ -7,9 +7,11 @@ export default function AdminLayout() {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <main>
-        <SidebarTrigger/>
-        <Outlet />
+      <main className="w-full  pt-2">
+        <SidebarTrigger />
+        <section className="px-10">
+           <Outlet />
+        </section>
       </main>
     </SidebarProvider>
   )

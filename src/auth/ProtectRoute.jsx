@@ -8,7 +8,7 @@ export default function ProtectRoute({ children, role}) {
   const  { user, loading } = useAuth();
 
   if (loading) {
-    return <MoonLoader />
+    return <MoonLoader color="#000080" cssOverride={{position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)"}} />
   }
 
   if (!user) {
