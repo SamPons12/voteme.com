@@ -64,7 +64,7 @@ export function AppSidebar() {
 
       {/* Footer */}
       <SidebarFooter className="p-4 text-gray-400 text-sm text-center">
-        &copy; 2026 Fenta Awards
+        &copy; {new Date().getFullYear()} Vote4Me
       </SidebarFooter>
     </Sidebar>
   )

@@ -27,7 +27,7 @@ export default function Footer() {
         </div>
       </section>
       <section className="flex justify-center items-center">
-        <small className="text-sm text-off-white">© {new Date().getFullYear()}, VoteMe</small>
+        <small className="text-sm text-off-white">© {new Date().getFullYear()}, Vote4Me</small>
       </section>
     </footer>
   )
