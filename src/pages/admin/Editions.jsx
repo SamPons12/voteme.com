@@ -1,8 +1,9 @@
 import DeleteAlertDialog from "@/components/admin/DeleteAlertDialog";
-import { getAllEditions } from "@/api/edtions.service";
+import EditEditionDialog from "@/components/admin/editions/EditEditionDialog";
+
+import { deleteEdition, getAllEditions, updateEdition } from "@/api/edtions.service";
 import { InputSearch } from "@/components/admin/InputSearch";
 import { SkeletonTable } from "@/components/TableSkeleton";
-import { Button } from "@/components/ui/button";
 import {
   TableCaption,
   Table,
@@ -12,13 +13,10 @@ import {
   TableBody,
   TableCell,
 } from "@/components/ui/table";
+
 import React, { useEffect, useState } from "react";
-import { FaPlus } from "react-icons/fa6";
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Field, FieldGroup, FieldLabel } from "@/components/ui/field";
-import { Input } from "@/components/ui/input";
-import { Calendar } from "@/components/ui/calendar";
-import { Card, CardContent } from "@/components/ui/card";
+import CreateEditionDialog from "@/components/admin/editions/CreateEditionDialog";
+import { toast } from "sonner";
 
 export default function Editions() {
   const [loadingEditions, setLloadingEditions] = useState(false);
@@ -52,6 +50,43 @@ export default function Editions() {
     );
     setEditions(filteredEditions);
   };
+
+  const handleCreate = (selectedRange, editionName, isOpen) => {
+    console.log(selectedRange, editionName, isOpen)
+  }
+
+  const handleDelete = async (id) => {
+    try {
+      const result = await deleteEdition(id);
+
+      if (result.ok) {
+        const editions = await getAllEditions();
+        setEditions(editions);
+        toast.success('Eliminado correctamente', {position: "top-center",})
+      }
+    } catch (err) {
+      console.log(err)
+      toast.error('Error, pruebe mas tarde!', {position: "top-center"})
+    }
+  }
+
+  const handleUpdate = async (editionId, selectedRange, editionName, isOpen) => {
+    try {
+      const payload = {selectedRange, editionName, isOpen}
+      const data = await updateEdition(editionId, payload); 
+
+      if (data.ok) {
+        const editions = await getAllEditions();
+        setEditions(editions);
+        toast.success('Actulizado correctamente', {position: "top-center"})
+      }
+      
+    } catch (err) {
+      console.log(err)
+      toast.error('Error, pruebe mas tarde!', {position: "top-center"})
+    }
+  }
+
   return (
     <section className="pt-19">
       <>
@@ -61,9 +96,7 @@ export default function Editions() {
           <>
             <div className="flex justify-between">
               <InputSearch onChange={(e) => handleInputChange(e.target.value)} />
-              <Button>
-                <FaPlus /> Crear edición
-              </Button>
+              <CreateEditionDialog handleSubmit={handleCreate} />
             </div>
             <Table>
               {editions.length > 0 && (
@@ -86,55 +119,13 @@ export default function Editions() {
                       <TableCell className="flex flex-col gap-2 ">
                         {e.name}
                         <div className="flex items-center">
-                          <DeleteAlertDialog onClick={() => {console.log("ELIMINAR")}} />
-                          
-                          <Dialog>
-                            <form>
-                              <DialogTrigger asChild>
-                                <Button variant="outline" size="sm" className="ml-2">
-                                  Editar
-                                </Button>
-                              </DialogTrigger>
-                              <DialogContent className="w-full sm:max-w-[500px] md:max-w-[700px] lg:max-w-[900px]">
-                                <DialogHeader>
-                                  <DialogTitle>Editar edición</DialogTitle>
-                                  <DialogDescription>
-                                    Modifica los detalles de la edición
-                                  </DialogDescription>
-                                </DialogHeader>
-                                <FieldGroup>
-                                  <Field>
-                                    <FieldLabel htmlFor="edition-name">Nombre</FieldLabel>
-                                    <Input id="edition-name" defaultValue={e.name} />
-                                  </Field>
-                                   <label>Fechas</label>
-                                  <Card className="flex justify-center items-center">
-                                    <CardContent className="p-0">
-                                     
-                                      <Calendar
-                                        mode="range"
-                                        numberOfMonths={2}
-                                        disabled={(date) =>
-                                          date > new Date() || date < new Date("1900-01-01")
-                                        }
-                                      />
-                                    </CardContent>
-                                  </Card>
-                                </FieldGroup>
-                                <DialogFooter>
-                                  <DialogClose asChild>
-                                    <Button variant="outline">Cancelar</Button>
-                                  </DialogClose>
-                                  <Button type="submit" className="ml-2">Guardar cambios</Button>
-                                </DialogFooter>
-                              </DialogContent>
-                            </form>
-                          </Dialog>
+                          <DeleteAlertDialog handleDelete={handleDelete} id={e.voting_period_id}/>                          
+                          <EditEditionDialog edition={e} handleSubmit={handleUpdate}  />
                         </div>
                       </TableCell>
                       <TableCell>{e.start_date}</TableCell>
                       <TableCell>{e.end_date}</TableCell>
-                      <TableCell>{e.is_open}</TableCell>
+                      <TableCell>{e.is_open === 1 ? 'Abierto' : 'Cerrado'}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
