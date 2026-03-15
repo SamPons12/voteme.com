@@ -7,6 +7,6 @@ export async function saveVotes(votes) {
     })
     return res;
   } catch (err) {
-    throw err
+    throw err.response
   }
 }
