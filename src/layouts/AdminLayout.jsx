@@ -1,5 +1,6 @@
 import { AppSidebar } from "@/components/AppSidebar"
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+import { Toaster } from "@/components/ui/sonner"
 import { Outlet } from "react-router-dom"
 
 export default function AdminLayout() {
@@ -11,6 +12,7 @@ export default function AdminLayout() {
         <SidebarTrigger />
         <section className="px-10">
            <Outlet />
+           <Toaster />
         </section>
       </main>
     </SidebarProvider>
