@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "../ui/button";
 
-export default function DeleteAlertDialog({ onClick }) {
+export default function DeleteAlertDialog({ handleDelete, id }) {
   return (
     <>
       <AlertDialog>
@@ -34,7 +34,7 @@ export default function DeleteAlertDialog({ onClick }) {
           <AlertDialogFooter>
             <AlertDialogCancel variant="outline">Cancelar</AlertDialogCancel>
             <AlertDialogAction
-              onClick={onClick}
+              onClick={() => handleDelete(id)}
               variant="destructive"
             >
               Confirmar
