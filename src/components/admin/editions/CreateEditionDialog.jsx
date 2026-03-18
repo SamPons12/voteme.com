@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import {
   Dialog,
   DialogClose,
@@ -31,8 +31,8 @@ export default function CreateEditionDialog({ handleSubmit }) {
     from: null,
     to: null,
   });
-  const editionNameRef = useRef('');
-  const isOpenRef = useRef(null)
+  const [editionName, setEditionName] = useState('');
+  const [isOpen, setIsOpen] = useState(0);
 
   return (
     <>
@@ -42,11 +42,11 @@ export default function CreateEditionDialog({ handleSubmit }) {
             <FaPlus /> Crear edición
           </Button>
         </DialogTrigger>
-        <DialogContent className="w-full sm:max-w-[500px] md:max-w-[700px] lg:max-w-[900px]">
+        <DialogContent className="w-full sm:max-w-125 md:max-w-175 lg:max-w-225">
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              handleSubmit(dateRange, editionNameRef.current, isOpenRef.current);
+              handleSubmit(dateRange, editionName, isOpen);
             }}
           >
             <DialogHeader>
@@ -61,7 +61,8 @@ export default function CreateEditionDialog({ handleSubmit }) {
                 <Input
                   id="edition-name"
                   type="text"
-                  onChange={(e) => (editionNameRef.current = e.target.value)}
+                  value={editionName}
+                  onChange={(e) => (setEditionName(e.target.value))}
                   required
                 />
               </Field>
@@ -72,7 +73,7 @@ export default function CreateEditionDialog({ handleSubmit }) {
                 </CardContent>
               </Card>
                 <Label>Estado*</Label>
-                <Select defaultValue='0' onValueChange={(value) => {console.log(value); isOpenRef.current = Number(value);}}>
+                <Select defaultValue='0' onValueChange={(value) => {setIsOpen(Number(value))}}>
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
@@ -89,9 +90,11 @@ export default function CreateEditionDialog({ handleSubmit }) {
               <DialogClose asChild>
                 <Button variant="outline">Cancelar</Button>
               </DialogClose>
-                <Button type="submit" className="ml-2">
+              <DialogClose asChild>
+                <Button type='submit' disabled={!(dateRange.from && isOpen.toString() && editionName)} className="ml-2">
                   Crear
                 </Button>
+              </DialogClose>
             </DialogFooter>
           </form>
         </DialogContent>

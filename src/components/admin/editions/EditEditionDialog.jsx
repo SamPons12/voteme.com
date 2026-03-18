@@ -27,8 +27,8 @@ import RangeCalendar from "@/components/RangeCalendar";
 
 export default function EditEditionDialog ({ edition, handleSubmit }) {
   const [dateRange, setDateRange] = useState({
-    from: edition.start_date,
-    to: edition.end_date,
+    from: edition?.start_date ? new Date(edition.start_date) : undefined,
+    to: edition?.end_date ? new Date(edition.end_date) : undefined,
   });
   const editionNameRef = useRef(edition.name);
   const isOpenRef = useRef(edition.is_open)
@@ -41,7 +41,7 @@ export default function EditEditionDialog ({ edition, handleSubmit }) {
             Editar
           </Button>
         </DialogTrigger>
-        <DialogContent className="w-full sm:max-w-[500px] md:max-w-[700px] lg:max-w-[900px]">
+        <DialogContent className="w-full sm:max-w-125 md:max-w-175 lg:max-w-225">
           <form
             onSubmit={(e) => {
               e.preventDefault();
@@ -72,7 +72,7 @@ export default function EditEditionDialog ({ edition, handleSubmit }) {
                 </CardContent>
               </Card>
                 <Label>Estado*</Label>
-                <Select defaultValue={edition.is_open.toString()} onValueChange={(value) => {console.log(value); isOpenRef.current = Number(value);}}>
+                <Select defaultValue={edition?.is_open.toString()} onValueChange={(value) => {console.log(value); isOpenRef.current = Number(value);}}>
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>

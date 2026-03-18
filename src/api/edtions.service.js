@@ -20,6 +20,16 @@ export const getActiveEditionCategories = async () => {
   }
 }
 
+export const createEdition = async (payload) => {
+  try {
+    const response = await api.post('/editions', payload);
+    const result = await response.data;
+    return result
+  } catch (err) {
+    throw err.response
+  }
+}
+
 export const deleteEdition = async (editionId) => {
   try {
     const response = await api.delete(`/editions/${editionId}`);
