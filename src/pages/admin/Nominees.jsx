@@ -141,6 +141,7 @@ export default function Nominees() {
                           <img
                             src={`${import.meta.env.VITE_API_URL.replace(/\/$/, '')}${n.image_url}`}
                             alt={n.name}
+                            crossOrigin="anonymous"
                             className="w-16 h-16 object-cover rounded"
                           />
                         ) : (

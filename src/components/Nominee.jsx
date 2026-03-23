@@ -11,7 +11,7 @@ export default function Nominee({nominee, selectedNominee, handleClickNominee}) 
       className={`flex flex-col cursor-pointer transform transition-all border-blue-900 hover:scale-103
                             ${selectedNominee === nominee.id ? "border-5" : ""} `}
     >
-      <img src={imageUrl} className="object-cover h-78 lg:h-99" />
+      <img src={imageUrl} crossOrigin="anonymous" className="object-cover h-78 lg:h-99" />
       <div className="flex flex-col">
         <h2 className="font-bold">{nominee.name.toUpperCase()}</h2>
         <small>{nominee.description}</small>
