@@ -53,7 +53,7 @@ export default function Register() {
   }
 
   return (
-    <main className="w-full pt-40 pb-20 min-h-dvh flex justify-center items-center bg-[url(pawel-czerwinski-xwp0_eLoZp0-unsplash.jpg)] bg-center bg-cover">
+    <main className="w-full pt-40 pb-20 min-h-dvh flex justify-center items-center bg-[url(/pawel-czerwinski-xwp0_eLoZp0-unsplash.jpg)] bg-center bg-cover bg-gray-900">
       {loading && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
           <MoonLoader size={90} color="#000080" />

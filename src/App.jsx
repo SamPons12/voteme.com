@@ -11,6 +11,8 @@ import Vote from "./pages/Vote"
 import ThankYouMessage from "./pages/ThankYouMessage"
 import Editions from "./pages/admin/Editions"
 import Categories from "./pages/admin/Categories"
+import Nominees from "./pages/admin/Nominees"
+import Votes from "./pages/admin/Votes"
 
 export default function App() {
   return (
@@ -70,6 +72,22 @@ export default function App() {
           <Route path="/admin/categorias" element={
             <ProtectRoute role="admin">
               <Categories />
+            </ProtectRoute>
+          } />
+        </Route>
+
+        <Route element={<AdminLayout />} >
+          <Route path="/admin/nominados" element={
+            <ProtectRoute role="admin">
+              <Nominees />
+            </ProtectRoute>
+          } />
+        </Route>
+
+        <Route element={<AdminLayout />} >
+          <Route path="/admin/votos" element={
+            <ProtectRoute role="admin">
+              <Votes />
             </ProtectRoute>
           } />
         </Route>
