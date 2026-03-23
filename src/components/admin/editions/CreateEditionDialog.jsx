@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogClose,
@@ -23,8 +23,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import RangeCalendar from "@/components/RangeCalendar";
 import { FaPlus } from "react-icons/fa6";
+import { getAllCategories } from "@/api/categories.service";
+import { toast } from "sonner";
 
 export default function CreateEditionDialog({ handleSubmit }) {
   const [dateRange, setDateRange] = useState({
@@ -33,6 +36,35 @@ export default function CreateEditionDialog({ handleSubmit }) {
   });
   const [editionName, setEditionName] = useState('');
   const [isOpen, setIsOpen] = useState(0);
+  const [categories, setCategories] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [loadingCategories, setLoadingCategories] = useState(false);
+
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        setLoadingCategories(true);
+        const data = await getAllCategories();
+        setCategories(data);
+      } catch (err) {
+        toast.error("Error al cargar categorías", { position: "top-center" });
+        console.log(err);
+      } finally {
+        setLoadingCategories(false);
+      }
+    }
+    fetchCategories();
+  }, []);
+
+  const handleCategoryToggle = (categoryId) => {
+    setSelectedCategories(prev => {
+      if (prev.includes(categoryId)) {
+        return prev.filter(id => id !== categoryId);
+      } else {
+        return [...prev, categoryId];
+      }
+    });
+  };
 
   return (
     <>
@@ -42,11 +74,15 @@ export default function CreateEditionDialog({ handleSubmit }) {
             <FaPlus /> Crear edición
           </Button>
         </DialogTrigger>
-        <DialogContent className="w-full sm:max-w-125 md:max-w-175 lg:max-w-225">
+        <DialogContent className="w-full sm:max-w-125 md:max-w-175 lg:max-w-225 max-h-[90vh] overflow-y-auto">
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              handleSubmit(dateRange, editionName, isOpen);
+              if (selectedCategories.length === 0) {
+                toast.error("Selecciona al menos una categoría", { position: "top-center" });
+                return;
+              }
+              handleSubmit(dateRange, editionName, isOpen, selectedCategories);
             }}
           >
             <DialogHeader>
@@ -72,26 +108,58 @@ export default function CreateEditionDialog({ handleSubmit }) {
                   <RangeCalendar edition={null} dateRange={dateRange} setDateRange={setDateRange}/>
                 </CardContent>
               </Card>
-                <Label>Estado*</Label>
-                <Select defaultValue='0' onValueChange={(value) => {setIsOpen(Number(value))}}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Estado</SelectLabel>
-                      <SelectItem value='1'>Abierto</SelectItem>
-                      <SelectItem value='0'>Cerrado</SelectItem>
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
+              <Label>Estado*</Label>
+              <Select defaultValue='0' onValueChange={(value) => {setIsOpen(Number(value))}}>
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Estado</SelectLabel>
+                    <SelectItem value='1'>Abierto</SelectItem>
+                    <SelectItem value='0'>Cerrado</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+
+              <Label className="mb-3">Categorías*</Label>
+              <div className="border rounded-md p-3 max-h-48 overflow-y-auto">
+                {loadingCategories ? (
+                  <p className="text-sm text-gray-500">Cargando categorías...</p>
+                ) : categories.length === 0 ? (
+                  <p className="text-sm text-gray-500">No hay categorías disponibles</p>
+                ) : (
+                  <div className="space-y-2">
+                    {categories.map((category) => (
+                      <div key={category.category_id} className="flex items-center space-x-2">
+                        <Checkbox
+                          id={`category-${category.category_id}`}
+                          checked={selectedCategories.includes(category.category_id)}
+                          onCheckedChange={() => handleCategoryToggle(category.category_id)}
+                        />
+                        <label
+                          htmlFor={`category-${category.category_id}`}
+                          className="text-sm cursor-pointer flex-1"
+                        >
+                          {category.name}
+                        </label>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </div>
+              <p className="text-xs text-gray-500">Seleccionadas: {selectedCategories.length}</p>
             </FieldGroup>
             <DialogFooter className="mt-5">
               <DialogClose asChild>
                 <Button variant="outline">Cancelar</Button>
               </DialogClose>
               <DialogClose asChild>
-                <Button type='submit' disabled={!(dateRange.from && isOpen.toString() && editionName)} className="ml-2">
+                <Button 
+                  type='submit' 
+                  disabled={!(dateRange.from && isOpen.toString() && editionName && selectedCategories.length > 0)} 
+                  className="ml-2"
+                >
                   Crear
                 </Button>
               </DialogClose>

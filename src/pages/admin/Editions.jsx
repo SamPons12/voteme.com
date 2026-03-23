@@ -35,7 +35,7 @@ export default function Editions() {
         const data = await getAllEditions();
         setEditions(data);
       } catch (err) {
-        console.log(err.message);
+        toast.error("Error al cargar ediciones", { position: "top-center" });
       } finally {
         setLloadingEditions(false);
       }
@@ -58,7 +58,7 @@ export default function Editions() {
     setEditions(filteredEditions);
   };
 
-  const handleCreate = async (dateRange, editionName, isOpen) => {
+  const handleCreate = async (dateRange, editionName, isOpen, categoryIds) => {
     try {
       
       const payload = {
@@ -68,6 +68,7 @@ export default function Editions() {
           to: formatDate(dateRange.to),
         },
         isOpen,
+        categoryIds,
       };
       const result = await createEdition(payload);
 
@@ -84,6 +85,7 @@ export default function Editions() {
 
   const handleDelete = async (id) => {
     try {
+      console.log(id)
       const result = await deleteEdition(id);
 
       if (result.ok) {
@@ -104,7 +106,7 @@ export default function Editions() {
     isOpen,
   ) => {
     try {
-      console.log(dateRange)
+      console.log(editionId)
       const payload = {
         editionName,
         selectedRange: {
@@ -157,14 +159,14 @@ export default function Editions() {
               {!loadingEditions && editions.length > 0 && (
                 <TableBody>
                   {editions.map((e) => (
-                    <TableRow key={e.voting_period_id}>
-                      <TableCell>{e.voting_period_id}</TableCell>
+                    <TableRow key={e.edition_id}>
+                      <TableCell>{e.edition_id}</TableCell>
                       <TableCell className="flex flex-col gap-2 ">
                         {e.name}
                         <div className="flex items-center">
                           <DeleteAlertDialog
                             handleDelete={handleDelete}
-                            id={e.voting_period_id}
+                            id={e.edition_id}
                           />
                           <EditEditionDialog
                             edition={e}

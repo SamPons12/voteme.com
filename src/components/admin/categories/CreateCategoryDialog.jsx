@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import {
   Dialog,
   DialogClose,
@@ -23,31 +23,17 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { FaPlus } from "react-icons/fa6";
-import { getAllEditions } from "@/api/edtions.service";
 
 export default function CreateCategoryDialog({ handleSubmit }) {
 
   const [categoryName, setCategoryName] = useState('');
   const [description, setDescription] = useState('')
   const [enabled, setEnabled] = useState(1);
-  const [selectedEdition, setSelectedEdtion] = useState(null);
-  const [editions, setEditions] = useState([]);
 
   const canSubmit = useMemo(() => {
-    return !(categoryName && enabled && description && selectedEdition)
-  }, [categoryName, description, enabled, selectedEdition])
+    return !(categoryName && enabled && description )
+  }, [categoryName, description, enabled])
 
-  useEffect(() => {
-    const getEditions = async () => {
-      try {
-        const data = await getAllEditions();
-        setEditions(data);
-      } catch (err) {
-        console.log(err)
-      }
-    }
-    getEditions();
-  }, [])
 
   return (
     <>
@@ -61,7 +47,7 @@ export default function CreateCategoryDialog({ handleSubmit }) {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              handleSubmit(categoryName, description, enabled, selectedEdition);
+              handleSubmit(categoryName, description, enabled);
             }}
           >
             <DialogHeader>
@@ -91,22 +77,6 @@ export default function CreateCategoryDialog({ handleSubmit }) {
                   required
                 />
               </Field>
-                <Label>Ediciones*</Label>
-                <Select onValueChange={(value) => {setSelectedEdtion(value)}}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Selecciona una edición"/>
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectGroup>
-                      <SelectLabel>Ediciones</SelectLabel>
-                      {
-                        editions.map((e) => (
-                          <SelectItem value={e.voting_period_id}>{e.name}</SelectItem>
-                        ))
-                      }
-                    </SelectGroup>
-                  </SelectContent>
-                </Select>
                 <Label>Estado*</Label>
                 <Select defaultValue='1' onValueChange={(value) => {setEnabled(Number(value))}}>
                   <SelectTrigger>

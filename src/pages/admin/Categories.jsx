@@ -28,7 +28,7 @@ export default function Categories() {
         const data = await getAllCategories();
         setCategories(data);
       } catch (err) {
-        console.log(err.message);
+        toast.error("Error al cargar categorías", { position: "top-center" });
       } finally {
         setLoadingCategories(false);
       }
@@ -50,15 +50,15 @@ export default function Categories() {
     setCategories(filteredCategories);
   };
 
-  const handleCreate = async (categoryName, description, enabled) => {
+  const handleCreate = async (name, description, enabled) => {
     try {
       const payload = {
-        categoryName,
+        name,
         description,
-        enabled,
+        enabled
       };
       const result = await createCategory(payload);
-
+      console.log(result)
       if (result.ok) {
         const categories = await getAllCategories();
         setCategories(categories);
@@ -128,7 +128,6 @@ export default function Categories() {
                   <TableHead>ID</TableHead>
                   <TableHead>Nombre</TableHead>
                   <TableHead>Descripción</TableHead>
-                  <TableHead>Edición</TableHead>
                   <TableHead>Estado</TableHead>
                 </TableRow>
               </TableHeader>
@@ -152,7 +151,6 @@ export default function Categories() {
                         </div>
                       </TableCell>
                       <TableCell>{c.description}</TableCell>
-                      <TableCell>{c.edition_name !== null ? c.edition_name : 'No asigando'}</TableCell>
                       <TableCell>
                         {c.enabled === 1 ? "Habilitado" : "Deshabilitado"}
                       </TableCell>
