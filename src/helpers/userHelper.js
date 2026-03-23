@@ -33,6 +33,6 @@ export const hasUserVoted = async (token) => {
 
     return true;
   } catch (err) {
-    throw err
+    throw err.response
   }
 }

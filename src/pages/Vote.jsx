@@ -7,6 +7,7 @@ import Nominee from "../components/Nominee";
 import { useNavigate } from "react-router-dom";
 import { hasUserVoted } from "../helpers/userHelper";
 import { getActiveEditionCategories } from "@/api/edtions.service";
+import { toast } from "sonner";
 
 export default function Vote() {
   const [categories, setCategories] = useState([]);
@@ -30,7 +31,7 @@ export default function Vote() {
           setCategoryId(data[0].category_id);
         }
       } catch (err) {
-        console.log(err);
+        toast.error("Error al cargar categorías", { position: "top-center" });
       } finally {
         setLoadingCategories(false);
       }
@@ -43,12 +44,12 @@ export default function Vote() {
           navigate('/votar/gracias-por-participar', {replace: true})
         }
       } catch (err) {
-        console.log(err)
+        toast.error("Error al verificar historial de votos", { position: "top-center" });
       }
     }
     checkUserVoted()
     getCategories();
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
     async function getNominees() {
@@ -59,7 +60,7 @@ export default function Vote() {
           setNominees(data);
         }
       } catch (err) {
-        console.log(err);
+        toast.error("Error al cargar nominados", { position: "top-center" });
       } finally {
         setLoadingNominees(false);
       }
@@ -84,10 +85,11 @@ export default function Vote() {
       setLoadingSendVotes(true);
       const response = await saveVotes(votes);
       if (response.data.ok) {
+        toast.success("Votos guardados correctamente", { position: "top-center" });
         navigate('/votar/gracias-por-participar', {replace: true})
       }
     } catch (err) {
-      console.log(err)
+      toast.error("Error al guardar votos", { position: "top-center" });
     } finally {
       setLoadingSendVotes(false);
     }
@@ -120,14 +122,12 @@ export default function Vote() {
   }
 
   return (
-    <main className="min-h-dvh pt-34 bg-[url(pawel-czerwinski-xwp0_eLoZp0-unsplash.jpg)] bg-center bg-cover lg:pt-70">
-      {loadingCategories ||
-        loadingNominees ||
-        (loadingSendVotes && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
-            <MoonLoader size={90} color="#000080" />
-          </div>
-        ))}
+    <main className="min-h-dvh pt-34 bg-[url(/pawel-czerwinski-xwp0_eLoZp0-unsplash.jpg)] bg-center bg-cover bg-gray-900 lg:pt-70">
+      {(loadingCategories || loadingNominees || loadingSendVotes) && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30">
+          <MoonLoader size={90} color="#000080" />
+        </div>
+      )}
       <section className="px-5 pb-20 lg:px-15">
         <section className="flex flex-col py-10 px-5 text-soft-black shadow-2xl rounded-2xl gap-5 lg:gap-10">
           {actualCategory && (
@@ -155,7 +155,7 @@ export default function Vote() {
             !loadingCategories &&
             nominees.map((n) => (
               <Nominee
-                key={n.nominee_category_id}
+                key={n.id}
                 nominee={n}
                 selectedNominee={selectedNominee}
                 handleClickNominee={handleClickNominee}

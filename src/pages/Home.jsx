@@ -9,7 +9,7 @@ export default function Home() {
   document.title = "Vote4Me | Inicio";
 
   return (
-    <main className="min-h-dvh bg-[url(/pawel-czerwinski-xwp0_eLoZp0-unsplash.jpg)] bg-center bg-cover">
+    <main className="min-h-dvh bg-[url(/pawel-czerwinski-xwp0_eLoZp0-unsplash.jpg)] bg-center bg-cover bg-gray-400">
       
       <section className="pt-40 px-10 pb-20 flex min-h-screen flex-col items-center justify-center relative">
         <LiaVoteYeaSolid className=" hidden w-40 h-50 absolute bottom-10 left-60 lg:block animate-pulse" />
