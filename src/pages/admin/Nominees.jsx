@@ -139,7 +139,7 @@ export default function Nominees() {
                       <TableCell>
                         {n.image_url ? (
                           <img
-                            src={`${import.meta.env.VITE_API_URL.replace(/\/$/, '')}${n.image_url}`}
+                            src={n.image_url.startsWith('http') ? n.image_url : `${import.meta.env.VITE_API_URL.replace(/\/$/, '')}${n.image_url}`}
                             alt={n.name}
                             crossOrigin="anonymous"
                             className="w-16 h-16 object-cover rounded"

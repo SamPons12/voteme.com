@@ -30,9 +30,8 @@ import { toast } from "sonner";
 import {
   getEditionCategories,
   getAvailableCategoriesForEdition,
-  addCategoryToEdition,
-  removeCategoryFromEdition,
 } from "@/api/edtions.service";
+import { MoonLoader } from "react-spinners";
 
 export default function EditEditionDialog ({ edition, handleSubmit }) {
   const [dateRange, setDateRange] = useState({
@@ -41,6 +40,7 @@ export default function EditEditionDialog ({ edition, handleSubmit }) {
   });
   const [categories, setCategories] = useState([]);
   const [availableCategories, setAvailableCategories] = useState([]);
+  const [originalCategoryIds, setOriginalCategoryIds] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState("");
   const [loadingCategories, setLoadingCategories] = useState(false);
   const [open, setOpen] = useState(false);
@@ -63,6 +63,7 @@ export default function EditEditionDialog ({ edition, handleSubmit }) {
       ]);
       setCategories(currentCats);
       setAvailableCategories(availableCats);
+      setOriginalCategoryIds(currentCats.map((c) => c.category_id));
       setSelectedCategory("");
     } catch (err) {
       toast.error("Error al cargar categorías", { position: "top-center" });
@@ -72,31 +73,42 @@ export default function EditEditionDialog ({ edition, handleSubmit }) {
     }
   };
 
-  const handleAddCategory = async () => {
+  const handleAddCategory = () => {
     if (!selectedCategory) {
       toast.error("Selecciona una categoría", { position: "top-center" });
       return;
     }
 
-    try {
-      await addCategoryToEdition(edition.edition_id, selectedCategory);
-      toast.success("Categoría agregada", { position: "top-center" });
-      await loadCategories();
-    } catch (err) {
-      toast.error("Error al agregar categoría", { position: "top-center" });
-      console.log(err);
-    }
+    const catId = Number(selectedCategory);
+    const catToAdd = availableCategories.find((c) => c.category_id === catId);
+    if (!catToAdd) return;
+
+    setCategories((prev) => [...prev, catToAdd]);
+    setAvailableCategories((prev) => prev.filter((c) => c.category_id !== catId));
+    setSelectedCategory("");
   };
 
-  const handleRemoveCategory = async (categoryId) => {
-    try {
-      await removeCategoryFromEdition(edition.edition_id, categoryId);
-      toast.success("Categoría removida", { position: "top-center" });
-      await loadCategories();
-    } catch (err) {
-      toast.error("Error al remover categoría", { position: "top-center" });
-      console.log(err);
-    }
+  const handleRemoveCategory = (categoryId) => {
+    const catToRemove = categories.find((c) => c.category_id === categoryId);
+    if (!catToRemove) return;
+
+    setCategories((prev) => prev.filter((c) => c.category_id !== categoryId));
+    setAvailableCategories((prev) => [...prev, catToRemove]);
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const currentCategoryIds = categories.map((c) => c.category_id);
+    const categoriesToAdd = currentCategoryIds.filter((id) => !originalCategoryIds.includes(id));
+    const categoriesToRemove = originalCategoryIds.filter((id) => !currentCategoryIds.includes(id));
+    handleSubmit(
+      edition.edition_id,
+      dateRange,
+      editionNameRef.current,
+      isOpenRef.current,
+      categoriesToAdd,
+      categoriesToRemove,
+    );
   };
 
   return (
@@ -108,12 +120,7 @@ export default function EditEditionDialog ({ edition, handleSubmit }) {
           </Button>
         </DialogTrigger>
         <DialogContent className="w-full sm:max-w-125 md:max-w-175 lg:max-w-225 max-h-[90vh] overflow-y-auto">
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleSubmit(edition.edition_id, dateRange, editionNameRef.current, isOpenRef.current);
-            }}
-          >
+          <form onSubmit={onSubmit}>
             <DialogHeader>
               <DialogTitle>Editar edición</DialogTitle>
               <DialogDescription className='mb-5'>
@@ -155,7 +162,10 @@ export default function EditEditionDialog ({ edition, handleSubmit }) {
               <Label className="mt-5 font-semibold">Categorías ({categories.length})</Label>
               
               {loadingCategories ? (
-                <p className="text-sm text-gray-500">Cargando categorías...</p>
+                <div className="flex justify-center items-center">
+                  <MoonLoader color="#000080"/>
+                </div>
+               
               ) : (
                 <>
                   {/* Categorías actuales */}
