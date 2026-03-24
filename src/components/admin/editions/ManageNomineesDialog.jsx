@@ -29,6 +29,7 @@ import {
   addNomineeToEditionCategory,
   removeNomineeFromEditionCategory,
 } from "@/api/edtions.service";
+import { MoonLoader } from "react-spinners";
 
 export default function ManageNomineesDialog({ edition }) {
   const [open, setOpen] = useState(false);
@@ -134,7 +135,7 @@ export default function ManageNomineesDialog({ edition }) {
 
         {loading ? (
           <div className="flex justify-center items-center h-40">
-            <p className="text-gray-500">Cargando categorías...</p>
+            <MoonLoader color="#000080" />
           </div>
         ) : categories.length === 0 ? (
           <div className="flex justify-center items-center h-40">

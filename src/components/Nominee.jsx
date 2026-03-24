@@ -1,6 +1,6 @@
 export default function Nominee({nominee, selectedNominee, handleClickNominee}) {
   const imageUrl = nominee.image_url
-    ? `${import.meta.env.VITE_API_URL.replace(/\/$/, '')}${nominee.image_url}`
+    ? (nominee.image_url.startsWith('http') ? nominee.image_url : `${import.meta.env.VITE_API_URL.replace(/\/$/, '')}${nominee.image_url}`)
     : '/death_stranding.webp';
 
   return (

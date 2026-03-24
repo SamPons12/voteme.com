@@ -30,7 +30,7 @@ export default function EditNomineeDialog({ nominee, handleSubmit }) {
   const [imageFile, setImageFile] = useState(null);
   const [imagePreview, setImagePreview] = useState(
     nominee.image_url
-      ? `${import.meta.env.VITE_API_URL.replace(/\/$/, '')}${nominee.image_url}`
+      ? (nominee.image_url.startsWith('http') ? nominee.image_url : `${import.meta.env.VITE_API_URL.replace(/\/$/, '')}${nominee.image_url}`)
       : null
   );
 

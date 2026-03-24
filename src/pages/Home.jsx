@@ -9,8 +9,8 @@ export default function Home() {
   document.title = "Vote4Me | Inicio";
 
   return (
-    <main className="min-h-dvh bg-[url(/pawel-czerwinski-xwp0_eLoZp0-unsplash.jpg)] bg-center bg-cover bg-gray-400">
-      
+    <main className="min-h-dvh relative">
+      <img src="/pawel-czerwinski-xwp0_eLoZp0-unsplash.jpg" alt="background" className="absolute inset-0 w-full h-full object-cover" />
       <section className="pt-40 px-10 pb-20 flex min-h-screen flex-col items-center justify-center relative">
         <LiaVoteYeaSolid className=" hidden w-40 h-50 absolute bottom-10 left-60 lg:block animate-pulse" />
         <CiMicrochip className="hidden w-60 h-50 absolute top-40 right-50 animate-pulse lg:block" />

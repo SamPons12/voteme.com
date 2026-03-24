@@ -6,6 +6,8 @@ import {
   deleteEdition,
   getAllEditions,
   updateEdition,
+  addCategoryToEdition,
+  removeCategoryFromEdition,
 } from "@/api/edtions.service";
 import { InputSearch } from "@/components/admin/InputSearch";
 import { SkeletonTable } from "@/components/TableSkeleton";
@@ -104,6 +106,8 @@ export default function Editions() {
     dateRange,
     editionName,
     isOpen,
+    categoriesToAdd = [],
+    categoriesToRemove = [],
   ) => {
     try {
       console.log(editionId)
@@ -116,6 +120,12 @@ export default function Editions() {
         isOpen,
       };
       const data = await updateEdition(editionId, payload);
+
+      // Apply category changes
+      await Promise.all([
+        ...categoriesToAdd.map((catId) => addCategoryToEdition(editionId, catId)),
+        ...categoriesToRemove.map((catId) => removeCategoryFromEdition(editionId, catId)),
+      ]);
 
       if (data.ok) {
         const editions = await getAllEditions();
