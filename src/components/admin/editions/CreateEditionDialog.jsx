@@ -35,7 +35,7 @@ export default function CreateEditionDialog({ handleSubmit }) {
     to: null,
   });
   const [editionName, setEditionName] = useState('');
-  const [isOpen, setIsOpen] = useState(0);
+  const [status, setStatus] = useState(0);
   const [categories, setCategories] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [loadingCategories, setLoadingCategories] = useState(false);
@@ -82,7 +82,7 @@ export default function CreateEditionDialog({ handleSubmit }) {
                 toast.error("Selecciona al menos una categoría", { position: "top-center" });
                 return;
               }
-              handleSubmit(dateRange, editionName, isOpen, selectedCategories);
+              handleSubmit(dateRange, editionName, status, selectedCategories);
             }}
           >
             <DialogHeader>
@@ -109,7 +109,7 @@ export default function CreateEditionDialog({ handleSubmit }) {
                 </CardContent>
               </Card>
               <Label>Estado*</Label>
-              <Select defaultValue='0' onValueChange={(value) => {setIsOpen(Number(value))}}>
+              <Select defaultValue='0' onValueChange={(value) => {setStatus(Number(value))}}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
@@ -157,7 +157,7 @@ export default function CreateEditionDialog({ handleSubmit }) {
               <DialogClose asChild>
                 <Button 
                   type='submit' 
-                  disabled={!(dateRange.from && isOpen.toString() && editionName && selectedCategories.length > 0)} 
+                  disabled={!(dateRange.from && status.toString() && editionName && selectedCategories.length > 0)} 
                   className="ml-2"
                 >
                   Crear

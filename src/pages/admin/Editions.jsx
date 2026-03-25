@@ -60,7 +60,7 @@ export default function Editions() {
     setEditions(filteredEditions);
   };
 
-  const handleCreate = async (dateRange, editionName, isOpen, categoryIds) => {
+  const handleCreate = async (dateRange, editionName, status, categoryIds) => {
     try {
       
       const payload = {
@@ -69,7 +69,7 @@ export default function Editions() {
           from: formatDate(dateRange.from),
           to: formatDate(dateRange.to),
         },
-        isOpen,
+        status,
         categoryIds,
       };
       const result = await createEdition(payload);
@@ -105,7 +105,7 @@ export default function Editions() {
     editionId,
     dateRange,
     editionName,
-    isOpen,
+    status,
     categoriesToAdd = [],
     categoriesToRemove = [],
   ) => {
@@ -117,7 +117,7 @@ export default function Editions() {
           from: formatDate(dateRange.from),
           to: formatDate(dateRange.to),
         },
-        isOpen,
+        status,
       };
       const data = await updateEdition(editionId, payload);
 
@@ -130,11 +130,11 @@ export default function Editions() {
       if (data.ok) {
         const editions = await getAllEditions();
         setEditions(editions);
-        toast.success("Actulizado correctamente", { position: "top-center" });
+        toast.success("Actualizado correctamente", { position: "top-center" });
       }
     } catch (err) {
       console.log(err);
-      toast.error("Error, pruebe mas tarde!", { position: "top-center" });
+      toast.error("Error, pruebe más tarde!", { position: "top-center" });
     }
   };
 
@@ -189,7 +189,7 @@ export default function Editions() {
                       <TableCell>{e.total_categories}</TableCell>
                       <TableCell>{e.total_nominees}</TableCell>
                       <TableCell>
-                        {e.is_open === 1 ? "Abierto" : "Cerrado"}
+                        {e.status === 'open' ? 'Abierto' : e.status === 'finished' ? 'Cerrado' : 'Programado'}
                       </TableCell>
                     </TableRow>
                   ))}

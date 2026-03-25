@@ -115,11 +115,15 @@ export default function AdminDashboard() {
   const editionStatusData = [
     {
       name: 'Abiertas',
-      value: editions.filter(e => e.is_open === 1).length,
+      value: editions.filter(e => e.status === 'open').length,
+    },
+    {
+      name: 'Programadas',
+      value: editions.filter(e => e.status === 'closed').length,
     },
     {
       name: 'Cerradas',
-      value: editions.filter(e => e.is_open === 0).length,
+      value: editions.filter(e => e.status === 'finished').length,
     }
   ];
 
@@ -146,7 +150,7 @@ export default function AdminDashboard() {
           <CardContent>
             <div className="text-2xl font-bold">{editions.length}</div>
             <p className="text-xs text-muted-foreground">
-              {editions.filter(e => e.is_open === 1).length} abiertas
+              {editions.filter(e => e.status === 'open').length} abiertas
             </p>
           </CardContent>
         </Card>
@@ -205,7 +209,7 @@ export default function AdminDashboard() {
           </CardHeader>
           <CardContent>
             {editionData.length > 0 ? (
-              <ChartContainer config={chartConfigs.editions} className="h-[300px]">
+              <ChartContainer config={chartConfigs.editions} className="h-75">
                 <BarChart data={editionData}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="name" />
@@ -231,7 +235,7 @@ export default function AdminDashboard() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <ChartContainer config={chartConfigs.editionStatus} className="h-[300px]">
+            <ChartContainer config={chartConfigs.editionStatus} className="h-75">
               <PieChart>
                 <Pie
                   data={editionStatusData}
@@ -262,7 +266,7 @@ export default function AdminDashboard() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <ChartContainer config={chartConfigs.categoryStatus} className="h-[300px]">
+            <ChartContainer config={chartConfigs.categoryStatus} className="h-75">
               <PieChart>
                 <Pie
                   data={categoryStatusData}
@@ -293,7 +297,7 @@ export default function AdminDashboard() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <ChartContainer config={chartConfigs.nomineeStatus} className="h-[300px]">
+            <ChartContainer config={chartConfigs.nomineeStatus} className="h-75">
               <PieChart>
                 <Pie
                   data={nomineeStatusData}
@@ -346,11 +350,13 @@ export default function AdminDashboard() {
                     </div>
                     <div>
                       <span className={`px-2 py-1 rounded text-xs font-semibold ${
-                        edition.is_open === 1 
+                        edition.status === 'open' 
                           ? 'bg-green-100 text-green-800' 
+                          : edition.status === 'finished' 
+                          ? 'bg-red-100 text-red-800' 
                           : 'bg-gray-100 text-gray-800'
                       }`}>
-                        {edition.is_open === 1 ? 'Abierta' : 'Cerrada'}
+                        {edition.status === 'open' ? 'Abierta' : edition.status === 'finished' ? 'Cerrada' : 'Programado'}
                       </span>
                     </div>
                   </div>

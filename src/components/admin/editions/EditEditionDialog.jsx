@@ -46,7 +46,7 @@ export default function EditEditionDialog ({ edition, handleSubmit }) {
   const [open, setOpen] = useState(false);
   
   const editionNameRef = useRef(edition.name);
-  const isOpenRef = useRef(edition.is_open);
+  const statusRef = useRef(edition.status);
 
   useEffect(() => {
     if (open) {
@@ -105,7 +105,7 @@ export default function EditEditionDialog ({ edition, handleSubmit }) {
       edition.edition_id,
       dateRange,
       editionNameRef.current,
-      isOpenRef.current,
+      statusRef.current,
       categoriesToAdd,
       categoriesToRemove,
     );
@@ -145,15 +145,16 @@ export default function EditEditionDialog ({ edition, handleSubmit }) {
                 </CardContent>
               </Card>
               <Label>Estado*</Label>
-              <Select defaultValue={edition?.is_open.toString()} onValueChange={(value) => {console.log(value); isOpenRef.current = Number(value);}}>
+              <Select defaultValue={edition?.status} onValueChange={(value) => {console.log(value); statusRef.current = value;}}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
                     <SelectLabel>Estado</SelectLabel>
-                    <SelectItem value='1'>Abierto</SelectItem>
-                    <SelectItem value='0'>Cerrado</SelectItem>
+                    <SelectItem value='open'>Abierto</SelectItem>
+                    <SelectItem value='finished'>Cerrado</SelectItem>
+                    <SelectItem value='closed'>Programado</SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>
