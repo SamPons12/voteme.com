@@ -7,6 +7,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@
 import { Link } from 'react-router-dom'
 import { toast } from 'sonner'
 import { FaUser, FaEnvelope } from 'react-icons/fa'
+import { FaDoorOpen } from 'react-icons/fa6'
 
 export default function UserDashboard() {
   const { user, logout } = useAuth()
@@ -45,7 +46,7 @@ export default function UserDashboard() {
         {/* Perfil */}
         <Card className="bg-white/90 backdrop-blur-sm">
           <CardHeader>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center flex-col justify-between">
               <div className="flex items-center gap-4">
                 <div className="w-16 h-16 rounded-full bg-blue-900 flex items-center justify-center">
                   <FaUser className="text-white w-7 h-7" />
@@ -58,9 +59,7 @@ export default function UserDashboard() {
                   </CardDescription>
                 </div>
               </div>
-              <Button variant="outline" onClick={logout} className="cursor-pointer">
-                Cerrar sesión
-              </Button>
+              
             </div>
           </CardHeader>
         </Card>
@@ -152,6 +151,11 @@ export default function UserDashboard() {
             )}
           </CardContent>
         </Card>
+        <div>
+          <Button variant="destructive" onClick={logout} className="cursor-pointer font-bold py-6 text-lg">
+            <FaDoorOpen /> Cerrar sesión
+          </Button>
+        </div>
       </section>
     </main>
   )

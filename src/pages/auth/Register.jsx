@@ -41,7 +41,7 @@ export default function Register() {
     if (Object.keys(newErrors).length === 0) {
       try {
         const data = await register(email, password)
-        navigate('/login')
+        navigate('/register/registro-exitoso')
       } catch (err) {
         if (err.error === "EMAIL_EXISTS") {
           newErrors.email = err.message;

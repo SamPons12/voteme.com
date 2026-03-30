@@ -15,7 +15,7 @@ export async function loginUser(email, password) {
 
 export async function registerUser(email, password) {
   try {
-     const res = await api.post('/auth/register', {
+    const res = await api.post('/auth/register', {
       email,
       password
     });
@@ -23,5 +23,13 @@ export async function registerUser(email, password) {
   } catch (err) {
     throw err.response.data
   }
-   
+}
+
+export async function verifyEmail(token) {
+  try {
+    const res = await api.get(`/auth/verify-email?token=${token}`);
+    return res.data;
+  } catch (err) {
+    throw err.response.data
+  }
 }

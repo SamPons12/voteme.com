@@ -13,6 +13,8 @@ import Editions from "./pages/admin/Editions"
 import Categories from "./pages/admin/Categories"
 import Nominees from "./pages/admin/Nominees"
 import Votes from "./pages/admin/Votes"
+import VerifiyEmail from "./pages/auth/VerifiyEmail"
+import RegisteredSuccess from "./pages/auth/RegisteredSuccess"
 
 export default function App() {
   return (
@@ -28,7 +30,13 @@ export default function App() {
         <Route element={<MainLayout />} >
           <Route path="/register" element={<Register />} />
         </Route>
-        
+        <Route element={<MainLayout />} >
+          <Route path="/register/registro-exitoso" element={<RegisteredSuccess />} />
+        </Route>
+        <Route element={<MainLayout />} >
+          <Route path="/verificar-email" element={<VerifiyEmail />} />
+        </Route>
+
         <Route element={<MainLayout />} >
           <Route path="/user" element={
             <ProtectRoute >
@@ -52,7 +60,7 @@ export default function App() {
             </ProtectRoute>
           } />
         </Route>
-        
+
         <Route element={<AdminLayout />} >
           <Route path="/admin" element={
             <ProtectRoute role="admin">
