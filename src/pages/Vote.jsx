@@ -10,6 +10,7 @@ import { getActiveEditionCategories } from "@/api/edtions.service";
 import { toast } from "sonner";
 
 export default function Vote() {
+  
   const [categories, setCategories] = useState([]);
   const [nominees, setNominees] = useState([]);
   const [categoryId, setCategoryId] = useState(null);

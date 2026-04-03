@@ -13,11 +13,12 @@ export async function loginUser(email, password) {
     
 }
 
-export async function registerUser(email, password) {
+export async function registerUser(email, password, token) {
   try {
     const res = await api.post('/auth/register', {
       email,
-      password
+      password,
+      token
     });
     return res.data;
   } catch (err) {

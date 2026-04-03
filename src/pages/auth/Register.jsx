@@ -1,8 +1,10 @@
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { useAuth } from "../../auth/AuthContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { validateConfirmPassword, validateEmail, validatePassword } from "../../helpers/authValidation";
 import { MoonLoader } from "react-spinners";
+import Turnstile from "react-turnstile";
+import { set } from "date-fns";
 export default function Register() {
   document.title = "Vote4Me | Register";
 
@@ -10,6 +12,7 @@ export default function Register() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [errors, setErrors] = useState({});
+  const [token, setToken] = useState(null);
 
   const navigate = useNavigate();
   
@@ -40,7 +43,7 @@ export default function Register() {
 
     if (Object.keys(newErrors).length === 0) {
       try {
-        const data = await register(email, password)
+        const data = await register(email, password, token)
         navigate('/register/registro-exitoso')
       } catch (err) {
         if (err.error === "EMAIL_EXISTS") {
@@ -51,6 +54,8 @@ export default function Register() {
       
     }
   }
+
+  // Initialize Turnstile
 
   return (
     <main className="w-full pt-40 pb-20 min-h-dvh flex justify-center items-center bg-[url(/pawel-czerwinski-xwp0_eLoZp0-unsplash.jpg)] bg-center bg-cover bg-gray-900">
@@ -134,10 +139,16 @@ export default function Register() {
               </li>
             </ul>
           </div>
-
+          <Turnstile
+            sitekey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
+            onVerify={(token) => {
+              setToken(token);
+            }}
+            
+          />
           <button
             type="submit"
-            className="w-full rounded-xl bg-blue-900 py-3 text-sm font-semibold text-white shadow-md transition hover:-translate-y-0.5 cursor-pointer hover:shadow-lg"
+            disabled={!token} className={`w-full rounded-xl bg-blue-900 py-3 text-sm font-semibold text-white shadow-md transition hover:-translate-y-0.5 cursor-pointer hover:shadow-lg ${!token ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
             Registrarse
           </button>

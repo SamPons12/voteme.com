@@ -10,8 +10,7 @@ export default function Home() {
 
   return (
     <main className="min-h-dvh relative">
-      <img src="/pawel-czerwinski-xwp0_eLoZp0-unsplash.jpg" alt="background" className="absolute inset-0 w-full h-full object-cover" />
-      <section className="pt-40 px-10 pb-20 flex min-h-screen flex-col items-center justify-center relative">
+      <section className="pt-40 bg-[url(/pawel-czerwinski-xwp0_eLoZp0-unsplash.jpg)] bg-center bg-cover px-10 pb-20 flex min-h-screen flex-col items-center justify-center relative">
         <LiaVoteYeaSolid className=" hidden w-40 h-50 absolute bottom-10 left-60 lg:block animate-pulse" />
         <CiMicrochip className="hidden w-60 h-50 absolute top-40 right-50 animate-pulse lg:block" />
         <GiMeshNetwork className="hidden w-40 h-50 absolute top-60 left-100 animate-pulse lg:block" />

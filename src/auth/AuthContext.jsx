@@ -43,10 +43,10 @@ export function AuthProvider({ children }) {
     }
   };
 
-  const register = async (email, password) => {
+  const register = async (email, password, token) => {
     try {
       setLoading(true);
-      const res = await registerUser(email, password);
+      const res = await registerUser(email, password, token);
       return res;
     } catch (err) {
       throw err;
